@@ -11,7 +11,19 @@ public class DBConnection {
 	//	CREATE DATABASE whatsCooking DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci
 	//	CREATE TABLE recipe (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	//  	title VARCHAR(128),
-	//  	description VARCHAR(128)
+	//  	description VARCHAR(128),
+	//		cooking_style VARCHAR(128)
+	//  );
+	//	CREATE TABLE ingredient (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	//  	recipe_id INTEGER,
+	//  	name VARCHAR(128),
+	//  	amount FLOAT,
+	//  	amount_unit VARCHAR(128)
+	//  );
+	//	CREATE TABLE instruction (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	//  	recipe_id INTEGER,
+	//  	inst_order INTEGER,
+	//  	value VARCHAR(128)
 	//  );
 	
 

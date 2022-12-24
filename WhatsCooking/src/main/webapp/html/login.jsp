@@ -7,11 +7,23 @@
   <title>Login</title>
 </head>
 <body>
-  <form action=loginServlet method=post>
+  <form action="/WhatsCooking/" method=post>
     <label for=username>UserName:</label><br>
     <input type=text id=username name=username><br>
     <label for=password>Password:</label><br>
     <input type=password id=password name=password><br><br>
+    
+    <%
+    	String infoMessage = (String) request.getAttribute("infoMessage");
+    	if(infoMessage != null) {
+  	%>
+  
+  	<em><%= infoMessage %></em><br><br>
+  
+   	<%
+  		}
+  	%>
+    
     <input type=submit value="Submit">
     </form>
 </body>

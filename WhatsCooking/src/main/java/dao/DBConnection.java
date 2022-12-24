@@ -31,7 +31,7 @@ public class DBConnection {
 	private static final String dbPassword = "password";
 	
 	private static final String driverClass = "com.mysql.jdbc.Driver";
-	private static final String connectionUrl = "jdbc:mysql://localhost:3306/whatsCooking";
+	private static final String connectionUrl = "jdbc:mysql://localhost:3306/whatscooking";
 
 	
 	public static Connection getConnectionToDatabase() {

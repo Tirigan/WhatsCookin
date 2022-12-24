@@ -7,11 +7,15 @@
   <title>Login</title>
 </head>
 <body>
-  <form action="/WhatsCooking/" method=post>
+  <form action="register" method=post>
     <label for=username>UserName:</label><br>
     <input type=text id=username name=username><br>
+    <label for=email>Email:</label><br>
+    <input type=email id=email name=email><br>
     <label for=password>Password:</label><br>
-    <input type=password id=password name=password><br><br>
+    <input type=password id=password name=password><br>
+    <label for=confirmPassword>Confirm Password:</label><br>
+    <input type=password id=confirmPassword name=confirmPassword><br><br>
     
     <%
     	String infoMessage = (String) request.getAttribute("infoMessage");
@@ -26,10 +30,5 @@
     
     <input type=submit value="Submit">
     </form>
-    
-    <form action="/WhatsCooking/" method=post>
-    	<input type=hidden id=goToRegister name=goToRegister value="yes"><br>
-   		<input type=submit value="Register">
-    </form>    
 </body>
 </html>

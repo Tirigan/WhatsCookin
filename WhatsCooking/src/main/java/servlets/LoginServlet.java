@@ -20,6 +20,14 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Going to registration
+		String goToRegister = request.getParameter("goToRegister");
+		if(goToRegister != null && goToRegister.equals("yes")) {
+			response.sendRedirect("register");
+			return;
+		}
+
+		/// Login in
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String infoMessage = null;
@@ -35,7 +43,6 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("infoMessage", infoMessage);
 			request.getRequestDispatcher("/html/login.jsp").forward(request, response);
 		}
-		
 	}
 
 }

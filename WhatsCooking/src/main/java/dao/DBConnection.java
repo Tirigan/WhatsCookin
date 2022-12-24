@@ -25,6 +25,11 @@ public class DBConnection {
 	//  	inst_order INTEGER,
 	//  	value VARCHAR(128)
 	//  );
+	//	CREATE TABLE login (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	//		  	uname VARCHAR(128),
+	//		    email VARCHAR(128),
+	//		  	password VARCHAR(128)
+	//	);
 	
 
 	private static final String dbUser = "root";

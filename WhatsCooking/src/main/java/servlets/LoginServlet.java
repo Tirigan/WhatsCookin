@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 		boolean userLoggedIn = loginDao.login(username, password);
 		
 		if(userLoggedIn) {
-			request.getRequestDispatcher("/html/search-recipe.jsp").forward(request, response);
+			response.sendRedirect("search-recipe");
 		} else {
 			infoMessage = "Invalid credentials!";
 			request.setAttribute("infoMessage", infoMessage);

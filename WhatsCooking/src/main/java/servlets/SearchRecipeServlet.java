@@ -27,6 +27,13 @@ public class SearchRecipeServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Going to create recipe
+		String goToCreateRecipe = request.getParameter("goToCreateRecipe");
+		if(goToCreateRecipe != null && goToCreateRecipe.equals("yes")) {
+			response.sendRedirect("create-recipe");
+			return;
+		}
+		
 		String ingredient1 = request.getParameter("ing1");
 		String ingredient2 = request.getParameter("ing2");
 		String ingredient3 = request.getParameter("ing3");

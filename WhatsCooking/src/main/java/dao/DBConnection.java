@@ -12,7 +12,11 @@ public class DBConnection {
 	//	CREATE TABLE recipe (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	//  	title VARCHAR(128),
 	//  	description VARCHAR(128),
-	//		cooking_style VARCHAR(128)
+	//		cooking_style VARCHAR(128),
+	//		user_id INT,
+	//		FOREIGN KEY (user_id)
+	//		REFERENCES login(id)
+	//		ON DELETE CASCADE
 	//  );
 	//	CREATE TABLE ingredient (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
 	//  	recipe_id INTEGER,

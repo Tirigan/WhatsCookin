@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.Ingredient;
+import beans.Instruction;
 import beans.Recipe;
 import services.RecipeService;
 
 public class RecipeDao implements RecipeService {
+	
 		
 	public Recipe getRecipeById(int recipeId) {
 		Recipe recipe = null;
@@ -34,6 +36,7 @@ public class RecipeDao implements RecipeService {
 				// create the recipe
 				recipe = new Recipe();
 				recipe.setId(set.getInt("id"));
+				recipe.setUserId(set.getInt("user_id"));
 				recipe.setTitle(set.getString("title"));
 				recipe.setDescription(set.getString("description"));
 				recipe.setCookingStyle(set.getString("cooking_style"));
@@ -99,6 +102,7 @@ public class RecipeDao implements RecipeService {
 				// create the recipe
 				recipe = new Recipe();
 				recipe.setId(set.getInt("id"));
+				recipe.setUserId(set.getInt("user_id"));
 				recipe.setTitle(set.getString("title"));
 				recipe.setDescription(set.getString("description"));
 				recipe.setCookingStyle(set.getString("cooking_style"));
@@ -117,6 +121,93 @@ public class RecipeDao implements RecipeService {
 		}
 		
 		return recipes;
+	}
+	
+	public List<Recipe> getUserRecipes(int userId) {
+		Recipe recipe = null;
+		
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		
+		/// Get a connection to the DB
+		Connection connection = DBConnection.getConnectionToDatabase();
+		
+		
+		try {
+		
+			// query the recipes for the user id
+			String sql = "select * from recipe where user_id = ?";
+				
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);			
+			statement.setString(1, Integer.toString(userId));
+
+			
+			ResultSet set = statement.executeQuery();
+			
+			// loop over all the results from the DB
+			while(set.next()) {
+				// create the recipe
+				recipe = new Recipe();
+				recipe.setId(set.getInt("id"));
+				recipe.setUserId(set.getInt("user_id"));
+				recipe.setTitle(set.getString("title"));
+				recipe.setDescription(set.getString("description"));
+				recipe.setCookingStyle(set.getString("cooking_style"));
+				
+				/// get the ingredients
+				IngredientDao ingredientDao = new IngredientDao();
+				recipe.setIngredients(ingredientDao.getIngredientsForRecipe(recipe.getId()));
+			
+				/// get the instructions
+				InstructionDao instructionDao = new InstructionDao();
+				recipe.setInstructions(instructionDao.getInstructionsForRecipe(recipe.getId()));
+
+				recipes.add(recipe);
+			}
+		} catch (SQLException | NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+		return recipes;
+	}
+	
+	public boolean createRecipe(Recipe recipe) {		
+		/// Get a connection to the DB
+		Connection connection = DBConnection.getConnectionToDatabase();
+
+		try {
+			// query the Ingredient
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO recipe (title, description, cooking_style, user_id) VALUES (?,?,?,?)");
+			ps.setString(1, recipe.getTitle());
+			ps.setString(2, recipe.getDescription());
+			ps.setString(3, recipe.getCookingStyle());
+			ps.setInt(4, recipe.getUserId());
+			
+			int recipeId = ps.executeUpdate();
+			
+			for(int i=0;i<recipe.getInstructions().size();i++) {
+				Instruction instruction = recipe.getInstructions().get(i);
+				ps = connection.prepareStatement("INSERT INTO instruction (recipe_id, inst_order, value) VALUES (?,?,?)");
+				ps.setInt(1, recipeId);
+				ps.setInt(2, instruction.getOrder());
+				ps.setString(3, instruction.getValue());
+				ps.executeUpdate();
+			}
+			for (Ingredient ingredient : recipe.getIngredients()){
+				ps = connection.prepareStatement("INSERT INTO ingredient (recipe_id, name, amount, amount_unit) VALUES (?,?,?,?)");
+				ps.setInt(1, recipeId);
+				ps.setString(2, ingredient.getName());
+				ps.setFloat(3, ingredient.getAmount());
+				ps.setString(4, ingredient.getAmountUnit());
+				ps.executeUpdate();
+			}
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 

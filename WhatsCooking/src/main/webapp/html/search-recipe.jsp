@@ -54,6 +54,11 @@
 	<input type="submit" value="Search Recipe">
   </form>
   
+    <form action="search-recipe" method=post>
+    	<input type=hidden id=goToCreateRecipe name=goToCreateRecipe value="yes"><br>
+   		<input type=submit value="Create Recipe">
+    </form>   
+  
     <%
     	Recipe recipe = (Recipe) request.getAttribute("recipe");
     	if(recipe != null) {

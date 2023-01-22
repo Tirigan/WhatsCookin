@@ -30,9 +30,19 @@ public class DBConnection {
 	//  	value VARCHAR(128)
 	//  );
 	//	CREATE TABLE login (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-	//		  	uname VARCHAR(128),
-	//		    email VARCHAR(128),
-	//		  	password VARCHAR(128)
+	//		 uname VARCHAR(128),
+	//		 email VARCHAR(128),
+	//		 password VARCHAR(128)
+	//	);
+	//	CREATE TABLE favorite (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	//      recipe_id INT,
+	//		user_id INT,
+	//		FOREIGN KEY (user_id)
+	//		REFERENCES login(id)
+	//		ON DELETE CASCADE,
+	//		FOREIGN KEY (recipe_id)
+	//		REFERENCES recipe(id)
+	//		ON DELETE CASCADE	
 	//	);
 	
 

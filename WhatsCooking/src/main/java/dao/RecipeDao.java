@@ -210,6 +210,88 @@ public class RecipeDao implements RecipeService {
 		
 	}
 	
+	public List<Recipe> getSavedRecipes(int userId) {
+		Recipe recipe = null;
+		
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		
+		/// Get a connection to the DB
+		Connection connection = DBConnection.getConnectionToDatabase();
+		
+		
+		try {
+		
+			// query the rows where the user has a recipe
+			String sql = "select * from favorite where user_id = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);			
+			statement.setInt(1, userId);
+			
+			ResultSet favResults = statement.executeQuery();
+			
+			// loop over all the results from the DB
+			while(favResults.next()) {
+				
+				// query the recipes for the user id
+				sql = "select * from recipe where recipe_id = ?";
+					
+				statement = connection.prepareStatement(sql);
+				statement = connection.prepareStatement(sql);			
+				statement.setInt(1, favResults.getInt("recipe_id"));
+
+				
+				ResultSet set = statement.executeQuery();
+				
+				// loop over all the results from the DB
+				while(set.next()) {
+					// create the recipe
+					recipe = new Recipe();
+					recipe.setId(set.getInt("id"));
+					recipe.setUserId(set.getInt("user_id"));
+					recipe.setTitle(set.getString("title"));
+					recipe.setDescription(set.getString("description"));
+					recipe.setCookingStyle(set.getString("cooking_style"));
+					
+					/// get the ingredients
+					IngredientDao ingredientDao = new IngredientDao();
+					recipe.setIngredients(ingredientDao.getIngredientsForRecipe(recipe.getId()));
+				
+					/// get the instructions
+					InstructionDao instructionDao = new InstructionDao();
+					recipe.setInstructions(instructionDao.getInstructionsForRecipe(recipe.getId()));
+
+					recipes.add(recipe);
+				}
+				
+			}
+			
+
+			
+		} catch (SQLException | NullPointerException e) {
+			e.printStackTrace();
+		}
+		
+		return recipes;
+	}
+	
+	
+	
+	public boolean saveRecipe(int recipeId, int userId) {
+		/// Get a connection to the DB
+		Connection connection = DBConnection.getConnectionToDatabase();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO favorite (recipe_id, user_id) VALUES (?,?)");
+			ps.setInt(1, recipeId);
+			ps.setInt(2, userId);
+			ps.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	
 	

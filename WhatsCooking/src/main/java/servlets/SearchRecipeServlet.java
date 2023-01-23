@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Recipe;
+import dao.FavoriteDao;
 import dao.RecipeDao;
 
 @WebServlet("/search-recipe")
@@ -28,12 +29,24 @@ public class SearchRecipeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Going to create recipe
+		
+		 String saveRecipe = request.getParameter("saveRecipe");
+		    if (saveRecipe != null && saveRecipe.equals("yes")) {
+		        // Get recipe_id and user_id from the request
+		        int recipeId = Integer.parseInt(request.getParameter("recipe_id"));
+		        int userId = Integer.parseInt((String) request.getSession().getAttribute("user_id"));
+
+		        // Save the recipe to the user's favorites
+		        FavoriteDao favoriteDao = new FavoriteDao();
+		        favoriteDao.saveRecipe(recipeId, userId);
+		    }
+		
 		String goToCreateRecipe = request.getParameter("goToCreateRecipe");
 		if(goToCreateRecipe != null && goToCreateRecipe.equals("yes")) {
 			response.sendRedirect("create-recipe");
 			return;
 		}
-		
+		  
 		String ingredient1 = request.getParameter("ing1");
 		String ingredient2 = request.getParameter("ing2");
 		String ingredient3 = request.getParameter("ing3");

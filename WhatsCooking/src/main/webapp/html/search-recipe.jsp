@@ -54,9 +54,15 @@
 	<input type="submit" value="Search Recipe">
   </form>
   
+  
+  
+  
     <form action="search-recipe" method=post>
-    	<input type=hidden id=goToCreateRecipe name=goToCreateRecipe value="yes"><br>
-   		<input type=submit value="Create Recipe">
+    	<input type=hidden id="recipe_id" name="recipe_id" value="<%= recipe.getId() %>">
+    <input type=hidden id="user_id" name="user_id" value="<%= userId %>">
+    <input type=submit name="saveRecipe" value="Save Recipe">
+    <input type=hidden id=goToCreateRecipe name=goToCreateRecipe value="yes"><br>
+    <input type=submit value="Create Recipe">
     </form>   
   
     <%

@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import beans.Ingredient;
 import beans.Instruction;
 import beans.Recipe;
-import beans.User;
-import dao.LoginDao;
 import dao.RecipeDao;
 
 @WebServlet("/create-recipe")
@@ -31,14 +29,10 @@ public class CreateRecipeServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+        int userId = (int) request.getSession().getAttribute("user_id");
 		String title = request.getParameter("recipe-name");
 		String description = request.getParameter("recipe-description");
 		String cookingStyle = request.getParameter("recipe-cooking-style");
-
-
-		LoginDao loginDao = new LoginDao();
-		User user = loginDao.getUserByUsername(username);
 		
 		RecipeDao recipeDao = new RecipeDao();
 
@@ -46,7 +40,7 @@ public class CreateRecipeServlet extends HttpServlet {
 		recipe.setTitle(title);
 		recipe.setDescription(description);
 		recipe.setCookingStyle(cookingStyle);
-		recipe.setUserId(user.getId());
+		recipe.setUserId(userId);
 		
 		Map<String, String[]> params = request.getParameterMap();
 		

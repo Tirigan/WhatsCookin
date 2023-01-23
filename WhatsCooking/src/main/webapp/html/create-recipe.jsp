@@ -21,8 +21,6 @@
   	%>
   	
   <form id="myRecipeForm" action="create-recipe" method=post>
-    <label for=username>Username:</label><br>
-    <input type=text id=username name=username><br>
     <label for=recipe-name>Recipe Name:</label><br>
     <input type=text id=recipe-name name=recipe-name><br>
     <label for=recipe-description>Recipe Description:</label><br>

@@ -9,7 +9,7 @@ public class FavoriteDao {
 	        Connection connection = DBConnection.getConnectionToDatabase();
 
 	        try {       
-	            PreparedStatement ps = connection.prepareStatement("INSERT INTO favorites (user_id, recipe_id) VALUES (?,?)");
+	            PreparedStatement ps = connection.prepareStatement("INSERT INTO favorite (user_id, recipe_id) VALUES (?,?)");
 	            ps.setInt(1, userId);
 	            ps.setInt(2, recipeId);
 	            ps.executeUpdate();

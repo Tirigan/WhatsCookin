@@ -28,17 +28,22 @@ public class SearchRecipeServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String infoMessage = null;
+
 		// Going to create recipe
-		
 		 String saveRecipe = request.getParameter("saveRecipe");
 		    if (saveRecipe != null && saveRecipe.equals("yes")) {
 		        // Get recipe_id and user_id from the request
 		        int recipeId = Integer.parseInt(request.getParameter("recipe_id"));
-		        int userId = Integer.parseInt((String) request.getSession().getAttribute("user_id"));
-
+		        int userId = (int) request.getSession().getAttribute("user_id");
+		        
 		        // Save the recipe to the user's favorites
 		        FavoriteDao favoriteDao = new FavoriteDao();
 		        favoriteDao.saveRecipe(recipeId, userId);
+				infoMessage = "Recipe Saved!";
+				request.setAttribute("infoMessage", infoMessage);
+				doGet(request, response);	
+				return;
 		    }
 		
 		String goToCreateRecipe = request.getParameter("goToCreateRecipe");
@@ -52,7 +57,6 @@ public class SearchRecipeServlet extends HttpServlet {
 		String ingredient3 = request.getParameter("ing3");
 		String cookingStyle = request.getParameter("cooking_style");
 
-		String infoMessage = null;
 		
 		RecipeDao recipeDao = new RecipeDao();
 		List<Recipe> recipes = recipeDao.getRecipesByIngredientsAndCookingStyle(

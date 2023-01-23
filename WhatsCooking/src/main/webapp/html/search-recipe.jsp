@@ -55,20 +55,26 @@
   </form>
   
   
+    <%
+    	Recipe recipe = (Recipe) request.getAttribute("recipe");
+	
+    	if(recipe != null) {
+  	%>
   
-  
+    <!-- Save Recipe Form -->
     <form action="search-recipe" method=post>
-    	<input type=hidden id="recipe_id" name="recipe_id" value="<%= recipe.getId() %>">
-    <input type=hidden id="user_id" name="user_id" value="<%= userId %>">
-    <input type=submit name="saveRecipe" value="Save Recipe">
+  	<input type=hidden id=saveRecipe name=saveRecipe value="yes"><br>
+    <input type=hidden id="recipe_id" name="recipe_id" value="<%= recipe.getId() %>">
+    <input type=hidden id="user_id" name="user_id" value="<%= session.getAttribute("user_id") %>">
+    <input type=submit value="Save Recipe">
+    </form>
+    
+    <!-- Create Recipe Form -->    
+    <form action="search-recipe" method=post>
     <input type=hidden id=goToCreateRecipe name=goToCreateRecipe value="yes"><br>
     <input type=submit value="Create Recipe">
     </form>   
   
-    <%
-    	Recipe recipe = (Recipe) request.getAttribute("recipe");
-    	if(recipe != null) {
-  	%>
 
   			<h2><%= recipe.getTitle() %></h2>
  			<h4>Description: </h4>

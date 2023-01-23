@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.User;
 import dao.LoginDao;
 
 
@@ -37,6 +38,8 @@ public class LoginServlet extends HttpServlet {
 		boolean userLoggedIn = loginDao.login(username, password);
 		
 		if(userLoggedIn) {
+			User user = loginDao.getUserByUsername(username);
+			request.getSession().setAttribute("user_id", user.getId());
 			response.sendRedirect("search-recipe");
 		} else {
 			infoMessage = "Invalid credentials!";
